@@ -67,7 +67,7 @@ for card in os.listdir(INPUT_DIRECTORY):
     card_path = INPUT_DIRECTORY + '/' + card
     print card_path
     image = cv2.imread(card_path)
-    crop_image = image[100:300, 125:1300]
+    crop_image = image[100:150, 50:1300]
     cropped_path = CROPPED_DIRECTORY + '/' + card
     cv2.imwrite(cropped_path, crop_image)
 
