@@ -1,9 +1,6 @@
 import socket
 import sys
 import thread
-import Image
-import cStringIO as StringIO
-import binascii
 
 HOST = ''
 PORT = 5555
@@ -23,17 +20,15 @@ s.listen(10)
 print 'Socket now listening'
 
 
-def clientThread(conn):
+def clientThread(conn, image_num):
 
     received = ""
     while True:
         data = conn.recv(1024)
         if not data:
-            with open('test-image-upload.jpg', 'w+') as f:
+            with open('test-image-upload-' + str(image_num) + '.jpg', 'w+') as f:
                 f.write(received)
 
-            image = Image.open('test-image-upload.jpg')
-            image.show()
             break
 
         received += data
@@ -41,9 +36,11 @@ def clientThread(conn):
 
     conn.close()
 
+i = 0
 while True:
     conn, addr = s.accept()
     print 'Connected with ' + addr[0] + ':' + str(addr[1])
-    thread.start_new_thread(clientThread, (conn,))
+    thread.start_new_thread(clientThread, (conn, i))
+    i += 1
 
 s.close()
